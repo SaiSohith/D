@@ -42,7 +42,7 @@ export class AdminComponent implements OnInit {
       }
   
       this.product.postProduct(object)
-      .subscribe((data) => {console.log(data);this.router.navigate(['/login'])});
+      .subscribe((data) => {console.log(data);this.router.navigate(['/'])});
     }
   }
 

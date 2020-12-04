@@ -1,6 +1,6 @@
 <app-header></app-header>
 <div>
-  <div class="">
+  <div>
     <mat-grid-list cols=4 #grid rowHeight="480px" gutterSize="20px">
       <mat-grid-tile *ngFor="let store of cart">
 
@@ -17,9 +17,8 @@
           </mat-card-content>
           <mat-card-actions>
             <div class="example-button-row">
-              <button mat-flat-button color="primary" style = " margin-bottom: 10px;">BUY</button>
-              <button mat-flat-button color="primary" style = " margin-left: 10px; margin-bottom: 10px;"
-                (click)="remove(store)">Remove</button>
+              <button mat-flat-button color="primary" style = " margin-bottom: 10px;" (click)="Order(store)">BUY</button>
+              <button mat-flat-button color="primary" style = " margin-left: 10px; margin-bottom: 10px;" (click)="remove(store)">Remove</button>
             </div>
           </mat-card-actions>
         </mat-card>

@@ -15,58 +15,63 @@ export class CartComponent implements OnInit {
   public sample;
   public user;
   public err;
-  public cart;
+  public cart = [];
   details;
+  public responce;
+  invalid = false;
   constructor(private product: ProductService, private router: Router) { }
 
   ngOnInit(): void {
     this.store = this.product.store;
     this.getDetail();
-    this.details=JSON.parse(localStorage.getItem('token'));
+    
   }
 
   getDetail()
   {
-    const user=this.product.user;
-    console.log(user);
-    this.product.getUser(user._id)
-    .subscribe((data) => {this.user=data;this.err=null;this.getCart()},(errr)=> { this.err=errr;this.user=null});
+    this.details=JSON.parse(localStorage.getItem('token'));
+    this.user=this.details.resp;
+    this.cart=this.user.cart;
+    if(this.user==null)
+    {
+      this.invalid=true;
+    }
+    console.log(this.user);
+    this.Price();
+  //   console.log(user);
+  //   this.product.getUser(user._id)
+  //   .subscribe((data) => {this.user=data;this.err=null;this.getCart()},(errr)=> { this.err=errr;this.user=null});
   }
 
-  getCart()
-  {
-    this.product.user=this.user;
-    this.cart=this.user.cart;
-    this.Price();
-  }
 
   Price()
   {
     this.totalprice=0;
+
     for(let i=0;i<this.cart.length;i++)
     {
       this.totalprice=this.totalprice+this.cart[i].price;
     }
+    console.log(this.totalprice);
   }
 
-  updateCart()
+
+
+  Order(product)
   {
+    alert(`your order ${product.productname} will be delivered in 4 days`);
+    this.remove(product);
+  }
+
+  remove(k) {
+    this.cart=this.cart.filter(x => x._id != k._id);
+    const a = k.price;
+    this.totalprice-=a;
     const abc= {
       cart: this.cart
     }
     this.product.updateUser(this.user._id,abc)
-    .subscribe((data) => {this.user=data;this.err=null;this.getCart()},(errr)=> { this.err=errr;this.user=null});
-    this.getCart();
-  }
-
-  remove(k) {
-    const a=k.price;
-    // this.i = this.cart.filter(x => x.position === k.position);
-    this.cart=this.cart.filter(x => x.position != k.position);
-    this.updateCart();
-    // if (this.i !== -1) {
-    //   this.store.splice(this.i, 1) ;
-    // }
+    .subscribe((data) => {this.responce=data;this.err=null;this.product.updateLocalUser(this.responce.resp);},(errr)=> { this.err=errr;this.user=null});
   }
 
 }

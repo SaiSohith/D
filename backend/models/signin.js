@@ -35,7 +35,7 @@ const user=new mongoose1.Schema({
         type: String,
         required: true
     },
-    cart: [Cart],
+   cart: [Cart],
 });
 
 module.exports=mongoose1.model('User',user);

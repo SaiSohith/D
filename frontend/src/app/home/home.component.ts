@@ -12,13 +12,16 @@ export class HomeComponent implements OnInit {
   public contracts ;
   public store = [];
   public arr: Product;
-  public user=this.product.user;
+  public user;
   public data;
   public err;
+  public responce;
   constructor(private product: ProductService, private router: Router) { }
 
 
   ngOnInit(): void {
+    const details = JSON.parse(localStorage.getItem('token'));
+    this.user=details.resp;
     this.GetAll();
   }
   addToCart(pro) {
@@ -33,7 +36,7 @@ export class HomeComponent implements OnInit {
     }
   }
   this.product.pushToCart(userabc)
-  .subscribe((details) => {console.log(details)}, (err) => { 
+  .subscribe((details) => {this.responce=details;this.product.updateLocalUser(this.responce.resp)}, (err) => { 
     if(err instanceof HttpErrorResponse)
     {
       if(err.status==401)
@@ -61,6 +64,7 @@ export class HomeComponent implements OnInit {
 
   GetAll()
   {
+    this.data="";
     this.product.getProduct()
     .subscribe((details) => { this.contracts=details}, (err) => {console.log(err)});
   }

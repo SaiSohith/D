@@ -35,7 +35,7 @@ Srouter.route('/allusers').get((req, res, next) => {
         .catch((err) => next(err));
 });
 
-Srouter.route('/addUser').post(verifyToken,(req, res, next) => {
+Srouter.route('/addUser').post((req, res, next) => {
     User.create(req.body)
         .then((resp) => {
             let payload = { subject: resp._id };
